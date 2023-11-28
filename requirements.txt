@@ -1,0 +1,13 @@
+flask
+ultralytics
+instaloader
+Pillow
+py-healthcheck
+SQLAlchemy
+alembic
+Flask-SQLAlchemy
+psycopg2-binary
+boto3
+python-dotenv
+thread6
+futures
