@@ -4,27 +4,27 @@ on:
   workflow_call:
 
 jobs:
-
-  Docker:
+  build_and_push:
     runs-on: ubuntu-latest
     steps:
-    - name: Check out the repo
-      uses: actions/checkout@v4
-      
-    - name: Docker Login
-      uses: docker/login-action@v2.0.0
-      with:
-        username: bagrielis
-        password: ${{ secrets.PASSWORD_DOCKER_HUB }}
-        
-    - name: Build and push Docker images
-      uses: docker/build-push-action@v3.0.0
-      with:
-        context: .
-        file: ./Dockerfile
-        push: true
-        tags: bagrielis/object-detection-service:${{github.ref_name}}
-        build-args: |
-          AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Checkout the repo 
+        uses: actions/checkout@v2
+      - name: Build image 
+        run:
+          docker build \
+          --build-arg AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+          --build-arg AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+          -t object-detection-service .
+      - name: Install doctl 
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: Log in to DO Container Registry 
+        run: doctl registry login --expiry-seconds 600
+      - name: Tag image 
+        run:
+          docker tag object-detection-service \
+          registry.digitalocean.com/bagrielis/object-detection-service:latest
+      - name: Push image to DO Container Registry 
+        run: docker push registry.digitalocean.com/bagrielis/object-detection-service:latest
           
