@@ -9,7 +9,11 @@ on:
 jobs:
 
   analyze_sonar:
-    # needs: test
     if: ${{ github.ref_name == 'main' }}
     uses: ./.github/workflows/Sonar.yml
+    secrets: inherit
+
+  docker_deploy:
+    if: ${{ github.ref_name == 'main' }}
+    uses: ./.github/workflows/Docker.yml
     secrets: inherit
