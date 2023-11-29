@@ -16,6 +16,15 @@ class Product(db.Model):
     no_of_ratings = db.Column(db.Float)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
+    def __init__(self, name, main_category, sub_category, image, link, ratings, no_of_ratings):
+      self.name = name
+      self.main_category = main_category
+      self.sub_category = sub_category
+      self.image = image
+      self.link = link
+      self.ratings = ratings
+      self.no_of_ratings = no_of_ratings
       
     def to_dict(self):
       return { c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs }

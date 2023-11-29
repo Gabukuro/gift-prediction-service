@@ -26,7 +26,7 @@ class AnalysisService:
         filtered_products = ProductService().filter_products(self.group_and_count_objects(objects))
         return filtered_products
       except Exception as e:
-        print("error 2: ", e)
+        print(e)
         return []
     
     def group_and_count_objects(self, objects):
@@ -36,7 +36,7 @@ class AnalysisService:
         for obj in subarray:
           count[obj] += 1
   
-      return [{ "name": object, "quantity": quantity } for object, quantity in count.items() if quantity > 1]
+      return [{ "name": object, "quantity": quantity } for object, quantity in count.items()]
 
     def retrieve_images_from_intagram(self, username):
       L = instaloader.Instaloader()

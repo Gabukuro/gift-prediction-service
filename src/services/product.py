@@ -1,5 +1,4 @@
-from src.models.product import Product
-from sqlalchemy import func, cast, Float
+from src.repositories.product import ProductRepository
 import pandas as pd
 
 class ProductService:
@@ -107,13 +106,9 @@ class ProductService:
 
     sorted_categories = sorted(categories.items(), key=lambda x: x[1]['quantity'], reverse=True)
     top_categories = sorted_categories[:3]
-    print(top_categories)
     top_category_names = [category[0] for category in top_categories]
 
-    average_rating = Product.query.with_entities(cast(func.avg(Product.ratings), Float)).scalar()
-    print(average_rating)
-    products = Product.query.filter(Product.main_category.in_(top_category_names), Product.ratings > average_rating).all()
-
+    products = ProductRepository().get_products_by_categories(top_category_names)
     df_products = pd.DataFrame([product.to_dict() for product in products])
 
     df_products['ratings_weight'] = df_products['ratings'] * df_products['no_of_ratings']
