@@ -1,5 +1,4 @@
 import os
-import boto3
 
 class Config:
   def __init__(self):
