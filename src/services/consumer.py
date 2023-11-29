@@ -31,7 +31,7 @@ class Consumer:
         print(e)
         continue
 
-      time.sleep(1)
+      time.sleep(5)
 
   def process_message(self, message):
     with app.app_context():
@@ -43,7 +43,7 @@ class Consumer:
 
       prediction = Prediction.query.filter_by(username=payload["username"]).first()
 
-      if prediction is not None:
+      if prediction is not None and prediction.status == "pending":
         try:
           prediction.status = "processing"
           db.session.commit()
