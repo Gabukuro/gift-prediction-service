@@ -29,10 +29,10 @@ jobs:
         coverage xml
 
     - name: Upload Coverage XML
-    uses: actions/upload-artifact@v2
-    with:
-      name: coverage-xml
-      path: coverage.xml
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage-xml
+        path: coverage.xml
 
 
   analyze_sonar:
