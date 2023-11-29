@@ -12,3 +12,4 @@ python-dotenv
 thread6
 futures
 opencv-python
+coverage
