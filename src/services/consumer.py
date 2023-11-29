@@ -4,7 +4,7 @@ import time
 from src import app, db
 from src.config.config import Config
 from src.services.analysis import AnalysisService
-from src.models.prediction import Prediction
+from src.models.prediction import Prediction, PredictionStatusEnum
 from src.models.prediction_product import PredictionProduct
 from concurrent.futures import ThreadPoolExecutor
 
@@ -41,9 +41,9 @@ class Consumer:
       payload = body["payload"]
       print("Payload: ", payload)
 
-      prediction = Prediction.query.filter_by(username=payload["username"]).first()
+      prediction = Prediction.query.filter_by(username=payload["username"], status=PredictionStatusEnum.pending).first()
 
-      if prediction is not None and prediction.status == "pending":
+      if prediction is not None:
         try:
           prediction.status = "processing"
           db.session.commit()
