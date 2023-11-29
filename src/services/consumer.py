@@ -25,7 +25,6 @@ class Consumer:
           WaitTimeSeconds=20
         )
         for message in messages:
-          self.process_message(message)
           self.executor.submit(self.process_message, message)
 
       except Exception as e:
@@ -46,11 +45,16 @@ class Consumer:
 
       if prediction is not None:
         try:
+          prediction.status = "processing"
+          db.session.commit()
+
           products = AnalysisService().analyze_profile(payload["username"])
+          rank = 1
 
           for product in products.itertuples():
-            new_prediction_product = PredictionProduct(prediction_id=prediction.id, product_id=product.id, rank_position=1)
+            new_prediction_product = PredictionProduct(prediction_id=prediction.id, product_id=product.id, rank_position=rank)
             db.session.add(new_prediction_product)
+            rank += 1
 
           prediction.status = "completed"
         except Exception as e:
@@ -59,6 +63,6 @@ class Consumer:
 
         finally:
           db.session.commit()
+          message.delete()
+          print("Message processed:", body["id"])
 
-      print("Message processed:", body["id"])
-      message.delete()

@@ -6,6 +6,7 @@ from enum import Enum
 
 class PredictionStatusEnum(Enum):
     pending = 'pending'
+    processing = 'processing'
     completed = 'completed'
     failed = 'failed'
 
