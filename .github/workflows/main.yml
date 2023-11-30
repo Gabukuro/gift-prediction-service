@@ -36,7 +36,7 @@ jobs:
 
 
   analyze_sonar:
-    # needs: test
+    needs: test
     if: ${{ github.ref_name == 'main' }}
     uses: ./.github/workflows/Sonar.yml
     secrets: inherit
