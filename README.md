@@ -1,6 +1,6 @@
-# Object detection service
+# Gift prediction service
 
-O Objete Detection Service é uma aplicação em Python que utiliza o framework YOLO para realizar a detecção de objetos em imagens.
+O Product Prediction Service é uma aplicação em Python que utiliza o framework YOLO para realizar a detecção de objetos em imagens para realizar o filtro de produtos e assim gerar uma recomendação de presentes.
 
 ## Configuração inicial
 
