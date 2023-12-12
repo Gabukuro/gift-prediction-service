@@ -41,8 +41,3 @@ jobs:
     uses: ./.github/workflows/Sonar.yml
     secrets: inherit
 
-  docker_deploy:
-    needs: test
-    if: ${{ github.ref_name == 'main' }}
-    uses: ./.github/workflows/Docker.yml
-    secrets: inherit
