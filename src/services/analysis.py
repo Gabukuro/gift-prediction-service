@@ -15,7 +15,7 @@ class AnalysisService:
       pass
 
     def analyze_profile(self, username):
-      images = self.retrieve_images_from_intagram(username)
+      images = self.retrieve_images_from_instagram(username)
       objects = []
 
       print("images count:", len(images))
@@ -38,7 +38,7 @@ class AnalysisService:
   
       return [{ "name": object, "quantity": quantity } for object, quantity in count.items()]
 
-    def retrieve_images_from_intagram(self, username):
+    def retrieve_images_from_instagram(self, username):
       L = instaloader.Instaloader()
       posts = instaloader.Profile.from_username(L.context, username).get_posts()
       urls = []
